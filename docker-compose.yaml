@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  app:
+    container_name: biblioteca-app
+    image: alehache/biblioteca:v1
+    restart: always
+    environment:
+      BASE_URL: ${BASE_URL}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+    ports:
+      - 8081:80
+    volumes:
+      - bibliotecalog:/var/log/apache2/
+    depends_on:
+      - db
+  db:
+    container_name: servidorbiblio_mysql
+    image: mariadb
+    restart: always
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mariadbdata:/var/lib/mysql
+volumes:
+    mariadbdata:
+    bibliotecalog:
